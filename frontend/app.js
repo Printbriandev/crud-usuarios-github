@@ -32,6 +32,24 @@ async function cargarUsuarios() {
   });
 }
 
+function validarFormulario(usuario) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!usuario.nombre.trim()) {
+    return 'El nombre es obligatorio';
+  }
+  if (!emailRegex.test(usuario.email)) {
+    return 'El email no tiene un formato valido';
+  }
+  if (!usuario.edad || usuario.edad <= 0) {
+    return 'La edad debe ser mayor a 0';
+  }
+  if (!usuario.ciudad.trim()) {
+    return 'La ciudad es obligatoria';
+  }
+  return null;
+}
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -42,18 +60,26 @@ form.addEventListener('submit', async (e) => {
     ciudad: inputCiudad.value
   };
 
-  if (inputId.value) {
-    await fetch(`${API_URL}/${inputId.value}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(usuario)
-    });
-  } else {
-    await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(usuario)
-    });
+  const errorValidacion = validarFormulario(usuario);
+  if (errorValidacion) {
+    alert(errorValidacion);
+    return;
+  }
+
+  const esEdicion = Boolean(inputId.value);
+  const url = esEdicion ? `${API_URL}/${inputId.value}` : API_URL;
+  const metodo = esEdicion ? 'PUT' : 'POST';
+
+  const res = await fetch(url, {
+    method: metodo,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(usuario)
+  });
+
+  if (!res.ok) {
+    const data = await res.json();
+    alert(data.error || 'Ocurrio un error al guardar el usuario');
+    return;
   }
 
   resetearFormulario();

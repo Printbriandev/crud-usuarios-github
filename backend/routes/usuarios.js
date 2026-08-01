@@ -14,6 +14,29 @@ function guardarUsuarios(usuarios) {
   fs.writeFileSync(dataPath, JSON.stringify(usuarios, null, 2), 'utf-8');
 }
 
+function validarUsuario(req, res, next) {
+  const { nombre, email, edad, ciudad } = req.body;
+
+  if (!nombre || !nombre.trim()) {
+    return res.status(400).json({ error: 'El nombre es obligatorio' });
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !emailRegex.test(email)) {
+    return res.status(400).json({ error: 'El email no tiene un formato valido' });
+  }
+
+  if (edad === undefined || Number.isNaN(Number(edad)) || Number(edad) <= 0) {
+    return res.status(400).json({ error: 'La edad debe ser un numero mayor a 0' });
+  }
+
+  if (!ciudad || !ciudad.trim()) {
+    return res.status(400).json({ error: 'La ciudad es obligatoria' });
+  }
+
+  next();
+}
+
 router.get('/', (req, res) => {
   const usuarios = leerUsuarios();
   res.json(usuarios);
@@ -28,7 +51,7 @@ router.get('/:id', (req, res) => {
   res.json(usuario);
 });
 
-router.post('/', (req, res) => {
+router.post('/', validarUsuario, (req, res) => {
   const usuarios = leerUsuarios();
   const { nombre, email, edad, ciudad } = req.body;
 
@@ -43,7 +66,7 @@ router.post('/', (req, res) => {
   res.status(201).json(nuevoUsuario);
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', validarUsuario, (req, res) => {
   const usuarios = leerUsuarios();
   const index = usuarios.findIndex(u => u.id === Number(req.params.id));
 

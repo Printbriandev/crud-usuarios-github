@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestion de Usuarios</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="contenedor">
+    <h1>Gestion de Usuarios</h1>
+
+    <form id="form-usuario">
+      <input type="hidden" id="usuario-id">
+      <input type="text" id="nombre" placeholder="Nombre" required>
+      <input type="email" id="email" placeholder="Correo electronico" required>
+      <input type="number" id="edad" placeholder="Edad" required>
+      <input type="text" id="ciudad" placeholder="Ciudad" required>
+      <button type="submit" id="btn-submit">Agregar usuario</button>
+      <button type="button" id="btn-cancelar" style="display:none;">Cancelar</button>
+    </form>
+
+    <table id="tabla-usuarios">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Edad</th>
+          <th>Ciudad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="cuerpo-tabla"></tbody>
+    </table>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

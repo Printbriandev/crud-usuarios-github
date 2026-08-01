@@ -6,33 +6,63 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="contenedor">
-    <h1>Gestion de Usuarios</h1>
+  <header class="encabezado">
+    <div class="encabezado-contenido">
+      <span class="encabezado-icono">👤</span>
+      <div>
+        <h1>Gestion de Usuarios</h1>
+        <p class="encabezado-subtitulo">CRUD conectado a la API de usuarios</p>
+      </div>
+    </div>
+  </header>
 
-    <form id="form-usuario">
-      <input type="hidden" id="usuario-id">
-      <input type="text" id="nombre" placeholder="Nombre" required>
-      <input type="email" id="email" placeholder="Correo electronico" required>
-      <input type="number" id="edad" placeholder="Edad" required>
-      <input type="text" id="ciudad" placeholder="Ciudad" required>
-      <button type="submit" id="btn-submit">Agregar usuario</button>
-      <button type="button" id="btn-cancelar" style="display:none;">Cancelar</button>
-    </form>
+  <main class="contenedor">
+    <section class="tarjeta">
+      <h2 class="tarjeta-titulo">Datos del usuario</h2>
+      <form id="form-usuario">
+        <input type="hidden" id="usuario-id">
+        <div class="campo">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" placeholder="Ej. Ana Martinez" required>
+        </div>
+        <div class="campo">
+          <label for="email">Correo electronico</label>
+          <input type="email" id="email" placeholder="Ej. ana@correo.com" required>
+        </div>
+        <div class="campo">
+          <label for="edad">Edad</label>
+          <input type="number" id="edad" placeholder="Ej. 28" required>
+        </div>
+        <div class="campo">
+          <label for="ciudad">Ciudad</label>
+          <input type="text" id="ciudad" placeholder="Ej. Santo Domingo" required>
+        </div>
+        <div class="acciones-formulario">
+          <button type="submit" id="btn-submit">+ Agregar usuario</button>
+          <button type="button" id="btn-cancelar" style="display:none;">Cancelar</button>
+        </div>
+      </form>
+    </section>
 
-    <table id="tabla-usuarios">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Edad</th>
-          <th>Ciudad</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody id="cuerpo-tabla"></tbody>
-    </table>
-  </div>
+    <section class="tarjeta">
+      <h2 class="tarjeta-titulo">Usuarios registrados</h2>
+      <div class="tabla-envoltorio">
+        <table id="tabla-usuarios">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Edad</th>
+              <th>Ciudad</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpo-tabla"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
 
   <script src="app.js"></script>
 </body>

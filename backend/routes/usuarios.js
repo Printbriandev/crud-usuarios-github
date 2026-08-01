@@ -7,6 +7,9 @@ const dataPath = path.join(__dirname, '..', 'data', 'usuarios.json');
 
 function leerUsuarios() {
   const contenido = fs.readFileSync(dataPath, 'utf-8');
+  if (!contenido.trim()) {
+    return [];
+  }
   return JSON.parse(contenido);
 }
 
@@ -40,6 +43,13 @@ function validarUsuario(req, res, next) {
 router.get('/', (req, res) => {
   const usuarios = leerUsuarios();
   res.json(usuarios);
+});
+
+router.param('id', (req, res, next, id) => {
+  if (Number.isNaN(Number(id))) {
+    return res.status(400).json({ error: 'El id debe ser un numero valido' });
+  }
+  next();
 });
 
 router.get('/:id', (req, res) => {
